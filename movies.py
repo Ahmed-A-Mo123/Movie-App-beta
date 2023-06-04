@@ -4,13 +4,13 @@ import random
 import requests
 import movie_storage
 
-
 MENU = """
 '********** My Movies Database **********\n\nMenu:\n\n0. Exit
 1. list movies \n2. Add movie\n3. Delete movie
 4. Update movie\n5. Stats\n6. Random movie
 7. Search movie\n8. Movies sorted by rating\n9. Generate Website
 """
+
 
 def add_movie():
     """Add movie function"""
@@ -115,8 +115,18 @@ def sorted_movie():
         print(f'{key}, {value}')
 
 
+def html_format(replace_obj, page_title):
+    with open('index_template.html', 'r') as fileobj:
+        html_content = fileobj.read()
+        new_html_content = html_content.replace('__TEMPLATE_MOVIE_GRID__', replace_obj).replace('__TEMPLATE_TITLE__',
+                                                                                                page_title)
+
+    with open('movie_app.html', 'w') as newfile:
+        newfile.write(new_html_content)
+
+
 def generate_website():
-    '''This Function generates a html file which takes from our api data'''
+    """This Function generates a html file which takes from our api data"""
     movies = movie_storage.list_movies()
     html_title = "Ahmed's Movie App!"
     html_replace = ''
@@ -128,7 +138,7 @@ def generate_website():
         yr_html = f'<div class="movie-year">{year}</div>'
         html_each_movie = f'<li> <div class="movie">{img} {movie_name} {yr_html} </div> </li>'
         html_replace += html_each_movie
-    movie_storage.html_format(html_replace, html_title)
+    html_format(html_replace, html_title)
     print('\nWebsite Has Been Generated, Take A look!')
 
 
