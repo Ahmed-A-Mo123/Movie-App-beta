@@ -16,6 +16,7 @@ class MovieApp:
         self.storage = storage
 
     def _command_list_movies(self):
+        """displays the formatted movie list from the users file"""
         movies = self.storage.list_movies()
         print(f'{len(movies)} in total:\n')
         for movie_title, info in movies.items():
@@ -46,12 +47,13 @@ class MovieApp:
             print('Error movie not found! ')
 
     def _command_update_movie(self):
+        """ Update movie Function"""
         movies = self.storage.list_movies()
-        title = input('Enter movie name: ')
+        title = input('Enter movie name: ').title()
+        notes = input('Enter movie notes:')
         if title in movies:
-            rating = int(input('Enter new movie rating (0-10): '))
-            self.storage.update_movie(title, rating)
-            print(f'Movie {title} successfully updated')
+            self.storage.update_movie(title, notes)
+            print(f'Movie "{title}" successfully updated')
         else:
             print('Error movie not found! ')
 
@@ -120,6 +122,7 @@ class MovieApp:
 
     @staticmethod
     def html_format(replace_obj, page_title):
+        """ Formats the html file"""
         with open('index_template.html', 'r') as fileobj:
             html_content = fileobj.read()
             new_html_content = html_content.replace('__TEMPLATE_MOVIE_GRID__', replace_obj).replace(
